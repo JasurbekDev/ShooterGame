@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Animated Shooting Game 2</title>
+</head>
+<body>
+    <div id="range">
+        <div id="score"></div>
+        <img src="ufo.gif" alt="Fire!" id="img1">
+        <div id="end"></div>
+    </div>
+    <style>
+            #range {
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: url("space.jpg");
+                width: 100%;
+                height: 600px;
+                cursor: crosshair;
+            }
+            #score {
+                font: 16px normal arial, verdana, sans-serif;
+                padding: 10px;
+                color: white;
+            }
+            #img1 {
+                position: absolute;
+                top: 200px;
+                /* width: 50px;
+                height: 22px; */
+                padding: 10px;
+                left: 0;
+            }
+            #end {
+                color: greenyellow;
+                position: absolute;
+                font: 3rem bold arial, verdana, sans-serif;
+                margin-left: 50%;
+                transform: translateX(-50%);
+                margin-top: 50px;
+            }
+        </style>
+        <script>
+            var shots = 0;
+            var score = 0;
+            var timer1 = null;
+            var n = 0;
+            function moveIt() {
+                if(parseInt(el.style.left) > (screen.width - 50)) el.style.left = 0;
+                el.style.left = parseInt(el.style.left) + 6 + "px";
+                el.style.top = (80 * Math.sin(parseInt(el.style.left) / 50)) + 200 + "px";
+                timer1 = setTimeout(moveIt, 25);
+            }
+            function shotsP() {
+                shots++;
+                if(shots == 10) {
+                    update();
+                    shots--;
+                    gameOver();
+                }
+            }
+            function update() {
+                document.getElementById("score").innerHTML = "Shots: " + shots + " Score: " + score;
+            }
+            function gameOver() {
+                clearTimeout(timer1);
+                    if(n == 0) {
+                        var text = document.createTextNode("Game Over!");
+                    document.getElementById("end").appendChild(text);
+                    n = 1;
+                    }
+                    el.onclick = null;
+                    document.getElementById(range).onclick = null;
+            }
+                el = document.getElementById("img1");
+                el.style.left = 0;
+                document.getElementById("range").onclick = function() {
+                    shotsP();
+                    update();
+                } 
+                el.onclick = function() {
+                    score++;
+                    update();
+                }
+                moveIt();
+                update();
+        </script>
+</body>
+</html>
